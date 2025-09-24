@@ -106,4 +106,5 @@ def exercises():
     print("\nPyDMD 极大简化了DMD的应用流程，并提供了更鲁棒的算法。")
 
 if __name__ == "__main__":
+
     exercises()
