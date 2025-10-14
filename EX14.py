@@ -91,8 +91,8 @@ def preprocess_data(snapshot_matrix):
 
 
 
-# 主执行函数 (Day 29-31)
-def run_day29_31_exercises():
+# 主执行函数 
+def exercises():
     DATA_PATH = './fluent_data'
     
     # 1. 生成数据
@@ -134,7 +134,7 @@ def run_day29_31_exercises():
     return fluctuation_matrix, mean_field, coords, nx, ny
 
 if __name__ == "__main__":
-    fluctuation_matrix, mean_field, coords, nx, ny = run_day29_31_exercises()
+    fluctuation_matrix, mean_field, coords, nx, ny = exercises()
     
 
 # --- Part 2: POD算法实现与分析 ---
@@ -212,8 +212,8 @@ class PODProcessor:
         plt.suptitle('Dominant POD Modes')
         plt.show()
 
-# 主执行函数 (Day 32-35)
-def run_day32_35_exercises(fluctuation_matrix, coords, nx, ny):
+# 主执行函数 
+def exercises(fluctuation_matrix, coords, nx, ny):
     # 1. 实例化并执行POD
     pod_processor = PODProcessor(fluctuation_matrix)
     pod_processor.fit()
@@ -229,7 +229,8 @@ def run_day32_35_exercises(fluctuation_matrix, coords, nx, ny):
 if __name__ == "__main__":
     # 完整流水线
     # 第1部分：数据处理
-    fluctuation_matrix, mean_field, coords, nx, ny = run_day29_31_exercises()
+    fluctuation_matrix, mean_field, coords, nx, ny = exercises()
     # 第2部分：POD分析
-    pod_processor = run_day32_35_exercises(fluctuation_matrix, coords, nx, ny)
+    pod_processor = exercises(fluctuation_matrix, coords, nx, ny)
+
     
