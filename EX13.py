@@ -91,7 +91,7 @@ def preprocess_data(snapshot_matrix):
 
 
 # 主执行函数 (Day 29-31)
-def run_day29_31_exercises():
+def exercises():
     DATA_PATH = './fluent_data'
     
     # 1. 生成数据
@@ -133,7 +133,8 @@ def run_day29_31_exercises():
     return fluctuation_matrix, mean_field, coords, nx, ny
 
 if __name__ == "__main__":
-    fluctuation_matrix, mean_field, coords, nx, ny = run_day29_31_exercises()
+    fluctuation_matrix, mean_field, coords, nx, ny = exercises()
     
+
 
     
