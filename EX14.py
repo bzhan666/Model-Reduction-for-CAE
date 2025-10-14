@@ -91,7 +91,7 @@ def preprocess_data(snapshot_matrix):
 
 
 
-# 主执行函数 (Day 29-31)
+# 主执行函数0 
 def exercises_0():
     DATA_PATH = './fluent_data'
     
@@ -211,7 +211,7 @@ class PODProcessor:
         plt.suptitle('Dominant POD Modes')
         plt.show()
 
-# 主执行函数 (Day 32-35)
+# 主执行函数1
 def exercises_1(fluctuation_matrix, coords, nx, ny):
     # 1. 实例化并执行POD
     pod_processor = PODProcessor(fluctuation_matrix)
@@ -231,4 +231,5 @@ if __name__ == "__main__":
     fluctuation_matrix, mean_field, coords, nx, ny = exercises_0()
     # 第2部分：POD分析
     pod_processor = exercises_1(fluctuation_matrix, coords, nx, ny)
+
     
