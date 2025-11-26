@@ -22,7 +22,7 @@ try:
     from EX14_2 import FluentDataReader, FluentDataGenerator
     # 第6节 POD
     from EX16 import PODROM
-    # 第9节(基于第7周) POD-DMD
+    # 第9节(基于第7节) POD-DMD
     from pod_dmd_model_v2 import POD_DMD_Model
     # 第8节 神经网络 (新增!)
     from EX18 import AutoEncoderReductor, AE_LSTM_ROM 
