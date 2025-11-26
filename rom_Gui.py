@@ -1,4 +1,14 @@
-# rom_gui.py (升级版)
+# -*- coding: utf-8 -*-
+"""
+降阶模型(ROM)工具箱的图形用户界面(GUI)。
+
+功能:
+- 提供一个可视化的操作界面来使用 `rom_toolbox.py` 中的功能。
+- 用户可以通过界面加载数据、选择模型、设置参数、执行训练和预测。
+- 将模型预测结果与真实值进行可视化对比。
+
+@author: bzhan666
+"""
 
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
@@ -9,7 +19,7 @@ from rom_toolbox import ROMToolbox
 class ROMApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("全能 CAE 降阶建模工具箱 (Phase 2 Final)")
+        self.root.title("全能 CAE 降阶建模工具箱 ")
         self.root.geometry("1280x800")
         
         self.toolbox = ROMToolbox()
