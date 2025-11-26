@@ -1,4 +1,15 @@
-# rom_toolbox.py (全能版)
+# -*- coding: utf-8 -*-
+"""
+降阶模型(ROM)工具箱后端。
+
+功能:
+- 封装了数据加载、模型初始化、训练、预测和保存/加载的全流程。
+- 支持多种降阶模型，包括线性的POD、POD-DMD和非线性的AE、AE-LSTM。
+- 通过统一的接口 `ROMToolbox` 类进行调用，方便上层应用(如GUI)集成。
+
+@author: bzhan666
+"""
+
 
 import numpy as np
 import pickle
@@ -7,13 +18,13 @@ from typing import Optional, Dict, Union
 
 # --- 导入所有阶段的模型 ---
 try:
-    # 第5周数据工具
+    # 第5节数据工具
     from EX14_2 import FluentDataReader, FluentDataGenerator
-    # 第6周 POD
+    # 第6节 POD
     from EX16 import PODROM
-    # 第9周(基于第7周) POD-DMD
+    # 第9节(基于第7周) POD-DMD
     from pod_dmd_model_v2 import POD_DMD_Model
-    # 第8周 神经网络 (新增!)
+    # 第8节 神经网络 (新增!)
     from EX18 import AutoEncoderReductor, AE_LSTM_ROM 
 except ImportError as e:
     print(f"导入错误: {e}")
@@ -167,30 +178,50 @@ class ROMToolbox:
 
     def save_model(self, filepath: str):
         """
-        保存模型
-        注意：对于Keras模型 (AE/LSTM)，pickle可能无法直接保存整个对象。
-        这里我们尝试保存，如果报错，提示用户（实际工程中需要分离保存权重）。
+        保存模型。
+        - 线性模型使用 pickle
+        - 非线性模型(Keras)使用自定义的 save 方法
         """
+        if self.model is None:
+            return "错误: 模型未初始化"
+
         try:
-            with open(filepath, 'wb') as f:
-                pickle.dump(self.model, f)
+            if "Non-linear" in self.model_type:
+                # 对于 AE 和 AE-LSTM，调用它们自己的 save 方法
+                # 文件路径现在应该是一个目录
+                self.model.save(filepath)
+            else:
+                # 线性模型可以继续使用 pickle
+                with open(filepath, 'wb') as f:
+                    pickle.dump(self.model, f)
             return f"模型已保存至 {filepath}"
         except Exception as e:
-            return f"保存失败 (Keras模型可能需要特殊处理): {str(e)}"
+            import traceback
+            traceback.print_exc()
+            return f"保存失败: {str(e)}"
 
-    def load_model(self, filepath: str):
+    def load_model(self, filepath: str, model_type_hint: str):
+        """
+        加载模型。
+        - 根据 model_type_hint 来决定加载策略
+        """
         try:
-            with open(filepath, 'rb') as f:
-                self.model = pickle.load(f)
-            # 推断类型用于UI显示
-            if hasattr(self.model, 'lstm_model'):
-                self.model_type = "Non-linear: Dynamic AE-LSTM"
-            elif hasattr(self.model, 'autoencoder'):
-                self.model_type = "Non-linear: Static AE"
-            elif hasattr(self.model, 'A_tilde'):
-                self.model_type = "Linear: Dynamic POD-DMD"
+            if "Non-linear" in model_type_hint:
+                # 根据类型提示加载对应的非线性模型
+                if "AE-LSTM" in model_type_hint:
+                    self.model = AE_LSTM_ROM.load(filepath)
+                else:
+                    self.model = AutoEncoderReductor.load(filepath)
+                self.model_type = model_type_hint
             else:
-                self.model_type = "Linear: Static POD"
+                # 线性模型使用 pickle
+                with open(filepath, 'rb') as f:
+                    self.model = pickle.load(f)
+                # 可以在这里添加一些逻辑来确认类型
+                self.model_type = model_type_hint
+
             return f"模型已加载: {self.model_type}"
         except Exception as e:
+            import traceback
+            traceback.print_exc()
             return f"加载失败: {str(e)}"
